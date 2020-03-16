@@ -5,7 +5,10 @@
  */
 package ejbs;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 
 /**
@@ -17,7 +20,7 @@ public class EJB implements EJBDemo {
 
     private static boolean isRegistred;
     private static int count;
-    private Properties properties;
+    private Properties properties=new Properties();
 
     /**
      * Get the value of isRegistred
@@ -37,6 +40,20 @@ public class EJB implements EJBDemo {
     // "Insert Code > Add Business Method")
     @Override
     public String getMessage(String login) {
-        return "Test";
+        return properties.getProperty("goodMsg","RRRE");
+    }
+
+    @PostConstruct
+    private void init() {
+        try (InputStream is
+                = getClass().getClassLoader()
+                        .getResourceAsStream("conf/properties.properties");) {
+                    properties.load(is);
+                    System.out.println("!!!!!!!!!!!!!!\n");
+                    System.out.println(properties.toString());
+                    System.out.println("!!!!!!!!!!!!!!\n");
+                } catch (IOException ex) {
+                    System.out.println("ERRRORRRR!!");;
+                }
     }
 }
