@@ -67,7 +67,7 @@
                             </style>
                             <input  class="bt" width="100" type="submit" value=
                                     <%  String k;
-                                        if ((k = request.getParameter("msg")) == null) {
+                                        if ((k = (String)request.getAttribute("msg")) == null) {
                                             k = "Войти";
                                         }
                                         out.print(k);
